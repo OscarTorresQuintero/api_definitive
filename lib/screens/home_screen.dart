@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ? Center(child: Text(_errorMessage))
               : SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.all(12),
+  padding: const EdgeInsets.fromLTRB(12, 20, 12, 12),
                     child: GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -107,4 +107,5 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
 
