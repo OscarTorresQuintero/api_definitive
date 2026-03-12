@@ -14,8 +14,40 @@ class DetailScreen extends StatelessWidget {
         title: Text(hero.name),
         backgroundColor: Colors.deepPurple,
       ),
-      body: Center(
-        child: Text(hero.name),
+
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+
+            Hero(
+              tag: hero.id,
+              child: Image.network(
+                hero.imageUrl,
+                height: 300,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Text(
+              hero.name,
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            Text(
+              "Publisher: ${hero.publisher}",
+              style: const TextStyle(color: Colors.grey),
+            ),
+
+          ],
+        ),
       ),
     );
   }
