@@ -62,10 +62,25 @@ class DetailScreen extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              _statRow("Intelligence", hero.powerStats.intelligence),
-              _statRow("Strength", hero.powerStats.strength),
-              _statRow("Speed", hero.powerStats.speed),
-              _statRow("Combat", hero.powerStats.combat),
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+
+                      _statRow("Intelligence", hero.powerStats.intelligence),
+                      _statRow("Strength", hero.powerStats.strength),
+                      _statRow("Speed", hero.powerStats.speed),
+                      _statRow("Combat", hero.powerStats.combat),
+
+                    ],
+                  ),
+                ),
+              ),
 
             ],
           ),
