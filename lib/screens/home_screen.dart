@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('⚡ Superhero App'),
+        title: const Text('⚡ Heroes List'),
         backgroundColor: Colors.deepPurple,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
@@ -107,3 +107,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
