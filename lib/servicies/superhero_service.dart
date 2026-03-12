@@ -26,4 +26,20 @@ class SuperheroService {
     }
     return heroes;
   }
+  Future<SuperheroModel?> searchHeroByName(String name) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl/search/$name'),
+      );
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['results'] != null && data['results'].isNotEmpty) {
+          return SuperheroModel.fromJson(data['results'][0]);
+        }
+      }
+    } catch (e) {
+      debugPrint('Error searching hero: $e');
+    }
+    return null;
+  }
 }
