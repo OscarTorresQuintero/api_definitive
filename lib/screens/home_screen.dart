@@ -12,7 +12,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final SuperheroService _service = SuperheroService();
+
   List<SuperheroModel> _heroes = [];
+  List<SuperheroModel> _filteredHeroes = [];
+
   bool _isLoading = true;
   String _errorMessage = '';
 
@@ -25,16 +28,30 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _loadHeroes() async {
     try {
       final heroes = await _service.getHeroes();
+
       setState(() {
         _heroes = heroes;
+        _filteredHeroes = heroes;
         _isLoading = false;
       });
     } catch (e) {
       setState(() {
-        _errorMessage = 'Error loading heroes';
+        _errorMessage = 'Error cargando héroes';
         _isLoading = false;
       });
     }
+  }
+
+  void _searchHero(String query) {
+    final results = _heroes.where((hero) {
+      final name = hero.name.toLowerCase();
+      final input = query.toLowerCase();
+      return name.contains(input);
+    }).toList();
+
+    setState(() {
+      _filteredHeroes = results;
+    });
   }
 
   @override
@@ -43,12 +60,31 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('⚡ Superhero App'),
         backgroundColor: Colors.deepPurple,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: TextField(
+              onChanged: _searchHero,
+              decoration: InputDecoration(
+                hintText: 'Buscar héroe...',
+                prefixIcon: const Icon(Icons.search),
+                filled: true,
+                fillColor: Colors.white12,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _errorMessage.isNotEmpty
               ? Center(child: Text(_errorMessage))
-              : SingleChildScrollView(        // ✅ Requisito
+              : SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(12),
                     child: GridView.builder(
@@ -61,9 +97,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisSpacing: 12,
                         mainAxisSpacing: 12,
                       ),
-                      itemCount: _heroes.length,
+                      itemCount: _filteredHeroes.length,
                       itemBuilder: (context, index) {
-                        return HeroCard(hero: _heroes[index]);
+                        return HeroCard(hero: _filteredHeroes[index]);
                       },
                     ),
                   ),
